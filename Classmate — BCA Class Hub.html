@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Classmate — BCA Class Hub</title>
+<style>
+:root {
+  --site-primary: #5B55D9;
+  --site-on-primary: #FFFFFF;
+  --site-secondary: #E9E8FF;
+  --site-on-secondary: #29265F;
+  --site-background: #F6F7FC;
+  --site-on-background: #20213A;
+  --site-font-body: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --site-font-heading: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --site-heading-scale: 1;
+  --site-spacing-scale: 1;
+  --site-radius-scale: 1;
+  --site-decoration-opacity: 1;
+  --surface: light-dark(#FFFFFF, #eaeaf1);
+  --surface-soft: light-dark(#F0F0FF, #bb14e0);
+  --text-muted: light-dark(#777A96, #B4B5CC);
+  --border: light-dark(#E7E8F2, #35364B);
+  --green: #188A62;
+  --green-soft: #E3F7EF;
+  --orange: #B96A19;
+  --orange-soft: #FFF1DF;
+  color-scheme: light dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; font-family: var(--site-font-body); color: var(--site-on-background); background: var(--site-background); }
+button, input, textarea, select { font: inherit; }
+button { cursor: pointer; }
+#app { min-height: 100vh; width: 100%; border-radius: 0; background-color: var(--site-background); color: var(--site-on-background); position: relative; overflow: hidden; }
+.topbar { height: 76px; display:flex; align-items:center; justify-content:space-between; padding: 0 5vw; background:var(--surface); border-bottom:1px solid var(--border); gap:20px; }
+.brand { display:flex; align-items:center; gap:11px; font-weight:850; font-size:21px; letter-spacing:-.7px; }
+.brand-mark { display:grid; place-items:center; width:39px; height:39px; border-radius:13px; color:var(--site-on-primary); background:var(--site-primary); box-shadow:0 7px 18px #5b55d933; font-size:20px; }
+.brand small { display:block; color:var(--text-muted); font-size:10px; letter-spacing:1.5px; font-weight:750; margin-top:2px; }
+.top-actions { display:flex; align-items:center; gap:12px; }
+.pill { border:1px solid var(--border); border-radius:999px; padding:9px 13px; color:var(--text-muted); font-size:12px; font-weight:700; }
+.btn { border:0; border-radius:12px; padding:11px 16px; background:var(--site-primary); color:var(--site-on-primary); font-weight:750; transition:transform .15s, opacity .15s; }
+.btn:hover { transform:translateY(-1px); opacity:.92; }
+.btn.secondary { background:var(--site-secondary); color:var(--site-on-secondary); }
+.btn.ghost { background:transparent; border:1px solid var(--border); color:var(--site-on-background); }
+.btn.small { padding:8px 11px; border-radius:9px; font-size:12px; }
+main { max-width:1190px; margin:0 auto; padding:34px 26px 60px; }
+.hero { display:grid; grid-template-columns:1.3fr .7fr; gap:26px; align-items:stretch; margin-bottom:25px; }
+.hero-copy { background:var(--site-primary); color:#fff; border-radius:25px; padding:34px 36px; position:relative; overflow:hidden; min-height:240px; }
+.hero-copy:after { content:""; position:absolute; width:250px; height:250px; border-radius:50%; right:-68px; top:-92px; border:1px solid #ffffff30; box-shadow:0 0 0 28px #ffffff0a,0 0 0 58px #ffffff08; opacity:var(--site-decoration-opacity); pointer-events:none; }
+.eyebrow { font-size:11px; text-transform:uppercase; letter-spacing:1.8px; font-weight:800; opacity:.78; }
+h1 { font-family:var(--site-font-heading); font-size:calc(39px * var(--site-heading-scale)); line-height:1.08; letter-spacing:-1.7px; margin:17px 0 13px; max-width:520px; }
+.hero-copy p { color:#eeedff; max-width:460px; line-height:1.65; font-size:14px; margin:0; }
+.hero-buttons { display:flex; gap:10px; margin-top:23px; flex-wrap:wrap; }
+.hero-buttons .btn { background:#fff; color:#37318E; }
+.hero-buttons .btn.secondary { background:#ffffff20; color:#fff; border:1px solid #ffffff40; }
+.welcome-card { border-radius:25px; background:var(--surface); border:1px solid var(--border); padding:24px; display:flex; flex-direction:column; justify-content:space-between; }
+.welcome-head { display:flex; justify-content:space-between; gap:12px; align-items:center; }
+.welcome-head h3 { margin:0; font-size:15px; }
+.avatar-stack { display:flex; }
+.avatar { width:31px; height:31px; border:2px solid var(--surface); border-radius:50%; display:grid; place-items:center; background:#DCD9FF; color:#4941A9; font-size:10px; font-weight:850; margin-left:-7px; }
+.avatar:first-child { margin-left:0; }
+.stat-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:20px; }
+.stat { background:var(--surface-soft); border-radius:15px; padding:15px; }
+.stat strong { display:block; font-size:26px; letter-spacing:-1px; }
+.stat span { color:var(--text-muted); font-size:11px; display:block; margin-top:3px; }
+.layout { display:grid; grid-template-columns: minmax(0,1.7fr) minmax(280px,.8fr); gap:25px; }
+.panel { background:var(--surface); border:1px solid var(--border); border-radius:22px; padding:23px; margin-bottom:22px; min-width:0; }
+.panel-head { display:flex; justify-content:space-between; align-items:center; gap:14px; margin-bottom:18px; }
+.panel-head h2 { font-size:18px; margin:0; letter-spacing:-.5px; }
+.subtext { color:var(--text-muted); font-size:12px; margin-top:5px; }
+.search-wrap { position:relative; }
+.search-wrap input { width:100%; border:1px solid var(--border); background:var(--site-background); color:var(--site-on-background); padding:12px 13px 12px 37px; border-radius:12px; outline:none; }
+.search-wrap input:focus, .field input:focus, .field textarea:focus, .field select:focus { border-color:var(--site-primary); box-shadow:0 0 0 3px #5b55d91a; }
+.search-icon { position:absolute; left:13px; top:11px; color:var(--text-muted); }
+.filters { display:flex; gap:8px; flex-wrap:wrap; margin:14px 0 17px; }
+.filter { border:1px solid var(--border); background:transparent; color:var(--text-muted); border-radius:999px; padding:7px 12px; font-size:11px; font-weight:750; }
+.filter.active { background:var(--site-secondary); color:var(--site-on-secondary); border-color:transparent; }
+.notes-list { display:grid; gap:11px; }
+.note { border:1px solid var(--border); border-radius:16px; padding:14px; display:flex; align-items:center; gap:13px; min-width:0; }
+.file-icon { width:44px; height:48px; border-radius:12px; background:#FCE9E8; color:#C4564E; display:grid; place-items:center; font-size:12px; font-weight:900; flex-shrink:0; }
+.file-icon.doc { background:#E7EEFF; color:#4168B6; }
+.file-icon.code { background:#E4F6EF; color:#188A62; }
+.note-info { flex:1; min-width:0; }
+.note-info strong { display:block; font-size:13px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.note-info p { margin:5px 0 0; color:var(--text-muted); font-size:11px; }
+.tag { display:inline-block; border-radius:6px; padding:4px 7px; font-size:10px; font-weight:800; background:var(--site-secondary); color:var(--site-on-secondary); margin-top:7px; }
+.note-actions { display:flex; align-items:center; gap:7px; }
+.icon-btn { width:34px; height:34px; border:1px solid var(--border); border-radius:10px; background:transparent; color:var(--site-on-background); display:grid; place-items:center; }
+.request-item { display:flex; gap:12px; padding:13px 0; border-bottom:1px solid var(--border); }
+.request-item:last-child { border-bottom:0; padding-bottom:0; }
+.request-symbol { width:38px; height:38px; border-radius:12px; display:grid; place-items:center; background:var(--orange-soft); color:var(--orange); flex-shrink:0; }
+.request-item strong { font-size:12px; display:block; }
+.request-item p { color:var(--text-muted); font-size:11px; margin:5px 0; line-height:1.5; }
+.request-item small { font-size:10px; color:var(--text-muted); }
+.chat-preview { background:var(--site-background); border-radius:15px; padding:14px; }
+.chat-message { display:flex; gap:9px; margin-bottom:14px; }
+.chat-message:last-child { margin-bottom:0; }
+.chat-avatar { width:28px; height:28px; border-radius:50%; display:grid; place-items:center; background:#DCD9FF; color:#4941A9; font-size:9px; font-weight:900; flex-shrink:0; }
+.bubble { background:var(--surface); border:1px solid var(--border); border-radius:0 12px 12px 12px; padding:10px 12px; font-size:12px; line-height:1.5; }
+.bubble strong { font-size:11px; display:block; margin-bottom:3px; }
+.chat-time { color:var(--text-muted); font-size:9px; margin-top:5px; }
+.chat-compose { display:flex; gap:8px; margin-top:12px; }
+.chat-compose input { min-width:0; flex:1; border:1px solid var(--border); border-radius:11px; padding:11px; background:var(--surface); color:var(--site-on-background); outline:none; font-size:12px; }
+.notice { border-radius:14px; background:var(--green-soft); color:#16694F; padding:13px; font-size:11px; line-height:1.6; margin-top:15px; }
+.footer { display:flex; justify-content:space-between; gap:14px; color:var(--text-muted); font-size:11px; padding:5px 4px; }
+.hidden { display:none !important; }
+.modal-backdrop { position:fixed; inset:0; background:#17172d88; z-index:20; display:grid; place-items:center; padding:18px; }
+.modal { width:min(100%,460px); max-height:90vh; overflow:auto; background:var(--surface); color:var(--site-on-background); border:1px solid var(--border); border-radius:23px; padding:25px; box-shadow:0 25px 90px #0002; }
+.modal-head { display:flex; justify-content:space-between; align-items:flex-start; gap:15px; margin-bottom:20px; }
+.modal-head h2 { margin:0; font-size:22px; letter-spacing:-.7px; }
+.modal-head p { color:var(--text-muted); font-size:12px; margin:7px 0 0; line-height:1.5; }
+.close-btn { border:0; border-radius:9px; background:var(--surface-soft); color:var(--site-on-background); width:32px; height:32px; font-size:18px; }
+.field { margin-bottom:14px; }
+.field label { display:block; font-size:11px; font-weight:800; margin-bottom:7px; }
+.field input, .field textarea, .field select { width:100%; border:1px solid var(--border); border-radius:11px; padding:12px; background:var(--site-background); color:var(--site-on-background); outline:none; }
+.field textarea { min-height:88px; resize:vertical; }
+.field-hint { color:var(--text-muted); font-size:10px; margin-top:6px; line-height:1.5; }
+.form-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.full { width:100%; }
+.notice-box { background:var(--orange-soft); color:#8D4D13; padding:12px; border-radius:12px; font-size:11px; line-height:1.6; margin-bottom:15px; }
+.admin-tabs { display:flex; gap:8px; margin-bottom:16px; }
+.admin-tab { border:1px solid var(--border); background:transparent; color:var(--text-muted); border-radius:9px; padding:8px 10px; font-size:11px; font-weight:800; }
+.admin-tab.active { background:var(--site-secondary); color:var(--site-on-secondary); border-color:transparent; }
+.approval-row { border:1px solid var(--border); border-radius:13px; padding:13px; margin-bottom:10px; }
+.approval-row strong { font-size:13px; }
+.approval-row p { color:var(--text-muted); font-size:11px; margin:5px 0 12px; }
+.approval-actions { display:flex; gap:8px; }
+.empty { text-align:center; padding:28px 10px; color:var(--text-muted); font-size:12px; }
+.toast { position:fixed; bottom:22px; left:50%; transform:translateX(-50%); z-index:40; background:#252444; color:#fff; padding:12px 18px; border-radius:12px; font-size:12px; box-shadow:0 10px 35px #0002; max-width:90vw; text-align:center; }
+@media(max-width:850px) { .hero,.layout { grid-template-columns:1fr; } .hero-copy { min-height:230px; } .layout { gap:0; } }
+@media(max-width:560px) { .topbar { padding:0 17px; height:68px; } .top-actions .pill { display:none; } main { padding:20px 14px 35px; } .hero-copy { padding:26px 23px; } h1 { font-size:calc(32px * var(--site-heading-scale)); } .welcome-card,.panel { padding:18px; border-radius:18px; } .note { align-items:flex-start; flex-wrap:wrap; } .note-actions { margin-left:auto; } .form-row { grid-template-columns:1fr; gap:0; } .footer { flex-direction:column; } }
+</style>
+</head>
+<body>
+<div id="app">
+  <header class="topbar">
+    <div class="brand"><div class="brand-mark">✳</div><div>classmate<small>BCA CLASS HUB</small></div></div>
+    <div class="top-actions"><span class="pill">✦ Built for your batch</span><button class="btn ghost" id="loginOpen">Log in</button><button class="btn" id="joinOpen">Join class ↗</button></div>
+  </header>
+  <main>
+    <section class="hero">
+      <div class="hero-copy"><div class="eyebrow">Your class. One space.</div><h1>Learn together.<br>Share everything.</h1><p>A little home for your BCA batch — find notes, ask for what you missed, and keep the class conversation going.</p><div class="hero-buttons"><button class="btn" id="browseBtn">Explore notes ↓</button><button class="btn secondary" id="requestBtn">Request notes +</button></div></div>
+      <div class="welcome-card"><div><div class="welcome-head"><h3>Your class at a glance</h3><div class="avatar-stack"><span class="avatar">AK</span><span class="avatar">AM</span><span class="avatar">RS</span><span class="avatar">+8</span></div></div><div class="subtext">A shared space for notes, questions and quick help.</div></div><div class="stat-grid"><div class="stat"><strong id="noteCount">06</strong><span>Notes shared</span></div><div class="stat"><strong id="requestCount">03</strong><span>Open requests</span></div></div></div>
+    </section>
+    <section class="layout">
+      <div>
+        <section class="panel" id="notesPanel">
+          <div class="panel-head"><div><h2>Notes library</h2><div class="subtext">Good notes make good days.</div></div><button class="btn small" id="uploadOpen">＋ Share notes</button></div>
+          <div class="search-wrap"><span class="search-icon">⌕</span><input id="searchNotes" placeholder="Search subjects, topics or files…" aria-label="Search notes"></div>
+          <div class="filters" id="filters"><button class="filter active" data-filter="All">All notes</button><button class="filter" data-filter="Programming">Programming</button><button class="filter" data-filter="Computer Science">Computer Science</button><button class="filter" data-filter="Mathematics">Mathematics</button><button class="filter" data-filter="Management">Management</button></div>
+          <div class="notes-list" id="notesList"></div>
+          <div class="subtext" style="margin-top:13px">Demo content only — uploaded files are not stored in this preview.</div>
+        </section>
+        <section class="panel" id="requestsPanel"><div class="panel-head"><div><h2>Notes requests</h2><div class="subtext">Need something? Ask your classmates.</div></div><button class="btn secondary small" id="requestOpen">＋ New request</button></div><div id="requestsList"></div></section>
+      </div>
+      <aside>
+        <section class="panel"><div class="panel-head"><div><h2>Class chat</h2><div class="subtext">Quick messages for the batch</div></div><span style="font-size:11px;color:var(--green);font-weight:800">● Demo</span></div><div class="chat-preview" id="chatMessages"><div class="chat-message"><div class="chat-avatar">AM</div><div><div class="bubble"><strong>Ananya M.</strong>Does anyone have today's C programming notes?</div><div class="chat-time">10:42 AM</div></div></div><div class="chat-message"><div class="chat-avatar" style="background:#DDF4E9;color:#197453">RJ</div><div><div class="bubble"><strong>Rahul J.</strong>I'll share them after class 👍</div><div class="chat-time">10:44 AM</div></div></div><div class="chat-message"><div class="chat-avatar" style="background:#FFE8D4;color:#9B5719">NS</div><div><div class="bubble"><strong>Nisha S.</strong>Reminder: assignment due Friday!</div><div class="chat-time">11:02 AM</div></div></div></div><form class="chat-compose" id="chatForm"><input id="chatInput" placeholder="Write a message…" aria-label="Write a message"><button class="btn small" type="submit" aria-label="Send message">➤</button></form><div class="subtext">Messages here are local demo messages, not sent to classmates.</div></section>
+        <section class="panel"><div class="panel-head"><div><h2>How it works</h2><div class="subtext">A simple space, run by your class.</div></div></div><div class="request-item"><div class="request-symbol">↗</div><div><strong>Request access</strong><p>Submit your name and class details. The admin reviews each request.</p></div></div><div class="request-item"><div class="request-symbol" style="background:#E8E7FF;color:#5B55D9">▤</div><div><strong>Share & find notes</strong><p>Organise notes by subject and request anything missing.</p></div></div><div class="request-item"><div class="request-symbol" style="background:#E4F6EF;color:#188A62">☏</div><div><strong>Stay connected</strong><p>Keep class questions and updates in one place.</p></div></div><div class="notice">🔒 <strong>Admin approval enabled in this demo.</strong><br>Use the Admin button in the login window to test approving access requests. No real authentication is connected.</div></section>
+        <div class="footer"><span>© 2026 Classmate · BCA Class Hub</span><button class="btn ghost small" id="adminOpen">Admin access</button></div>
+      </aside>
+    </section>
+  </main>
+</div>
+<div id="modalRoot"></div><div id="toastRoot"></div>
+<script>
+const initialNotes = [
+ {id:1,title:'C Programming — Module 1',subject:'Programming',type:'PDF',meta:'Ananya M. · 2 days ago',size:'2.4 MB',icon:'pdf'},
+ {id:2,title:'Computer Fundamentals — Unit 2',subject:'Computer Science',type:'PDF',meta:'Rahul J. · Yesterday',size:'1.8 MB',icon:'pdf'},
+ {id:3,title:'Discrete Mathematics — Logic',subject:'Mathematics',type:'DOC',meta:'Nisha S. · 3 days ago',size:'840 KB',icon:'doc'},
+ {id:4,title:'Python Basics — Quick Revision',subject:'Programming',type:'PDF',meta:'Arjun K. · Today',size:'1.2 MB',icon:'pdf'},
+ {id:5,title:'Principles of Management — Notes',subject:'Management',type:'DOC',meta:'Meera P. · 4 days ago',size:'760 KB',icon:'doc'},
+ {id:6,title:'Linux Commands & Shell Basics',subject:'Computer Science',type:'CODE',meta:'Athul K. · Today',size:'540 KB',icon:'code'}
+];
+let notes = [...initialNotes];
+let requests = [
+ {id:1,title:'Operating System — deadlock notes',subject:'Computer Science',by:'Rahul J.',votes:5},
+ {id:2,title:'Binary to Gray code solved examples',subject:'Mathematics',by:'Nisha S.',votes:3},
+ {id:3,title:'C programming loop programs',subject:'Programming',by:'Ananya M.',votes:2}
+];
+let accessRequests = [];
+let approvedUsers = [];
+let activeFilter = 'All';
+let adminTab = 'pending';
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function toast(msg){ $('#toastRoot').innerHTML=`<div class="toast">${esc(msg)}</div>`; setTimeout(()=>$('#toastRoot').innerHTML='',2600); }
+function renderNotes(){ const q=$('#searchNotes').value.toLowerCase(); const found=notes.filter(n=>(activeFilter==='All'||n.subject===activeFilter)&&`${n.title} ${n.subject} ${n.meta}`.toLowerCase().includes(q)); $('#notesList').innerHTML=found.length?found.map(n=>`<article class="note"><div class="file-icon ${n.icon==='doc'?'doc':n.icon==='code'?'code':''}">${esc(n.type)}</div><div class="note-info"><strong>${esc(n.title)}</strong><p>${esc(n.meta)} · ${esc(n.size)}</p><span class="tag">${esc(n.subject)}</span></div><div class="note-actions"><button class="icon-btn" title="Preview note" data-note="${n.id}">↗</button><button class="icon-btn" title="Save note" data-save="${n.id}">♡</button></div></article>`).join(''):'<div class="empty">No notes found. Try another search or share a note!</div>'; $('#noteCount').textContent=String(notes.length).padStart(2,'0'); }
+function renderRequests(){ $('#requestsList').innerHTML=requests.length?requests.map(r=>`<div class="request-item"><div class="request-symbol">＋</div><div style="flex:1"><strong>${esc(r.title)}</strong><p>${esc(r.subject)} · Requested by ${esc(r.by)}</p><small>♡ ${r.votes} classmates need this</small></div><button class="btn ghost small" data-vote="${r.id}">I need this</button></div>`).join(''):'<div class="empty">No open requests right now. Start one!</div>'; $('#requestCount').textContent=String(requests.length).padStart(2,'0'); }
+function modal(title,desc,body){ $('#modalRoot').innerHTML=`<div class="modal-backdrop" data-backdrop><section class="modal" role="dialog" aria-modal="true"><div class="modal-head"><div><h2>${title}</h2><p>${desc}</p></div><button class="close-btn" data-close aria-label="Close">×</button></div>${body}</section></div>`; $('#modalRoot').querySelector('[data-close]').onclick=closeModal; $('#modalRoot').querySelector('[data-backdrop]').addEventListener('click',e=>{if(e.target.dataset.backdrop!==undefined)closeModal()}); }
+function closeModal(){ $('#modalRoot').innerHTML=''; }
+function joinForm(){ modal('Request class access','Fill in your details. The admin can approve or decline your request.',`<form id="joinForm"><div class="field"><label>Full name</label><input name="name" required placeholder="Your name"></div><div class="field"><label>College email</label><input name="email" type="email" required placeholder="you@example.com"></div><div class="form-row"><div class="field"><label>Semester</label><select name="semester"><option>Semester 1</option><option>Semester 2</option><option>Semester 3</option><option>Semester 4</option><option>Semester 5</option><option>Semester 6</option></select></div><div class="field"><label>Class / batch</label><input name="batch" required placeholder="e.g. BCA A"></div></div><div class="field"><label>Set a demo password</label><input name="password" type="password" minlength="4" required placeholder="At least 4 characters"><div class="field-hint">Prototype only: passwords are not securely stored or authenticated.</div></div><button class="btn full" type="submit">Send access request ↗</button></form>`); $('#joinForm').onsubmit=e=>{e.preventDefault();const d=Object.fromEntries(new FormData(e.target)); if(accessRequests.some(x=>x.email.toLowerCase()===d.email.toLowerCase())||approvedUsers.some(x=>x.email.toLowerCase()===d.email.toLowerCase())){toast('This email already has a request or approval.');return;}accessRequests.push({id:Date.now(),name:d.name,email:d.email,semester:d.semester,batch:d.batch,status:'pending'});closeModal();toast('Access request submitted for admin review.');}; }
+function loginForm(){ modal('Welcome back','Log in to your class space or open the demo admin panel.',`<div class="notice-box">This preview does not have real accounts yet. Use the admin demo to test access approvals.</div><form id="loginForm"><div class="field"><label>Email address</label><input type="email" required placeholder="you@example.com"></div><div class="field"><label>Password</label><input type="password" required placeholder="Your password"></div><button class="btn full" type="submit">Log in</button></form><div style="display:flex;gap:9px;margin-top:11px"><button class="btn ghost full" id="loginJoin">Request access</button><button class="btn secondary full" id="loginAdmin">Admin demo</button></div>`); $('#loginForm').onsubmit=e=>{e.preventDefault();toast('Real login is not connected yet. Try Admin demo.');}; $('#loginJoin').onclick=joinForm; $('#loginAdmin').onclick=adminLogin; }
+function adminLogin(){ modal('Admin access','Demo administrator panel. In a live site, protect this with a secure admin account.',`<div class="notice-box">Demo only: this panel is not protected by a real password. Never use this pattern for a public website.</div><form id="adminForm"><div class="field"><label>Admin email</label><input type="email" required value="admin@classmate.demo"></div><div class="field"><label>Demo password</label><input type="password" required value="classadmin"></div><button class="btn full" type="submit">Open admin dashboard →</button></form>`); $('#adminForm').onsubmit=e=>{e.preventDefault();adminPanel();}; }
+function adminPanel(){ modal('Admin dashboard','Review classmates requesting access to the BCA Class Hub.',`<div class="admin-tabs"><button class="admin-tab ${adminTab==='pending'?'active':''}" data-admin-tab="pending">Pending (${accessRequests.length})</button><button class="admin-tab ${adminTab==='approved'?'active':''}" data-admin-tab="approved">Approved (${approvedUsers.length})</button></div><div id="adminRows"></div><div class="subtext">This is demo state held only in this page session.</div>`); $('#modalRoot').querySelectorAll('[data-admin-tab]').forEach(b=>b.onclick=()=>{adminTab=b.dataset.adminTab;adminPanel()}); renderAdminRows(); }
+function renderAdminRows(){ const root=$('#adminRows'); if(adminTab==='pending'){root.innerHTML=accessRequests.length?accessRequests.map(u=>`<div class="approval-row"><strong>${esc(u.name)}</strong><p>${esc(u.email)} · ${esc(u.semester)} · ${esc(u.batch)}</p><div class="approval-actions"><button class="btn small" data-approve="${u.id}">✓ Approve</button><button class="btn ghost small" data-reject="${u.id}">Decline</button></div></div>`).join(''):'<div class="empty">No pending requests. Share the join link with your classmates.</div>';}else{root.innerHTML=approvedUsers.length?approvedUsers.map(u=>`<div class="approval-row"><strong>${esc(u.name)}</strong><p>${esc(u.email)} · ${esc(u.semester)} · ${esc(u.batch)}</p><span class="tag" style="background:var(--green-soft);color:var(--green)">Approved</span></div>`).join(''):'<div class="empty">No approved members in this demo yet.</div>';}}
+function uploadForm(){ modal('Share class notes','Add a note to the demo library. No actual file upload is saved.',`<form id="uploadForm"><div class="field"><label>Note title</label><input name="title" required placeholder="e.g. C Programming — Unit 2"></div><div class="field"><label>Subject</label><select name="subject"><option>Programming</option><option>Computer Science</option><option>Mathematics</option><option>Management</option></select></div><div class="field"><label>File name (demo)</label><input name="file" required placeholder="unit-2-notes.pdf"></div><button class="btn full" type="submit">Add to notes library</button></form>`); $('#uploadForm').onsubmit=e=>{e.preventDefault();const d=Object.fromEntries(new FormData(e.target));let ext=(d.file.split('.').pop()||'pdf').toUpperCase();let icon=ext==='DOC'||ext==='DOCX'?'doc':ext==='JS'||ext==='PY'||ext==='SH'?'code':'pdf';notes.unshift({id:Date.now(),title:d.title,subject:d.subject,type:ext,meta:'You · Just now',size:'Demo file',icon});closeModal();renderNotes();toast('Demo note added to the library.');}; }
+function requestForm(){ modal('Request notes','Tell your classmates which notes you need.',`<form id="requestForm"><div class="field"><label>What notes do you need?</label><input name="title" required placeholder="e.g. Linux shell scripting programs"></div><div class="field"><label>Subject</label><select name="subject"><option>Programming</option><option>Computer Science</option><option>Mathematics</option><option>Management</option></select></div><div class="field"><label>Your name</label><input name="by" required placeholder="Your name"></div><button class="btn full" type="submit">Post notes request</button></form>`); $('#requestForm').onsubmit=e=>{e.preventDefault();let d=Object.fromEntries(new FormData(e.target));requests.unshift({id:Date.now(),...d,votes:0});closeModal();renderRequests();toast('Your demo request has been posted.');}; }
+$('#loginOpen').onclick=loginForm; $('#joinOpen').onclick=joinForm; $('#adminOpen').onclick=adminLogin; $('#uploadOpen').onclick=uploadForm; $('#requestOpen').onclick=requestForm; $('#requestBtn').onclick=requestForm; $('#browseBtn').onclick=()=>$('#notesPanel').scrollIntoView({behavior:'smooth',block:'start'}); $('#searchNotes').oninput=renderNotes;
+$('#filters').onclick=e=>{const b=e.target.closest('[data-filter]');if(!b)return;activeFilter=b.dataset.filter;$('#filters').querySelectorAll('.filter').forEach(x=>x.classList.toggle('active',x===b));renderNotes();};
+document.addEventListener('click',e=>{const n=e.target.closest('[data-note]');if(n){const item=notes.find(x=>x.id===Number(n.dataset.note));toast(`Preview: ${item.title} — file preview is not connected.`);}const s=e.target.closest('[data-save]');if(s)toast('Saved to your demo favourites.');const v=e.target.closest('[data-vote]');if(v){const r=requests.find(x=>x.id===Number(v.dataset.vote));if(r){r.votes++;renderRequests();toast('Added your vote to this request.');}}const a=e.target.closest('[data-approve]');if(a){const i=accessRequests.findIndex(x=>x.id===Number(a.dataset.approve));if(i>=0){approvedUsers.push({...accessRequests.splice(i,1)[0],status:'approved'});adminPanel();toast('Access approved in this demo.');}}const d=e.target.closest('[data-reject]');if(d){accessRequests=accessRequests.filter(x=>x.id!==Number(d.dataset.reject));adminPanel();toast('Request declined in this demo.');}});
+$('#chatForm').onsubmit=e=>{e.preventDefault();const input=$('#chatInput');const msg=input.value.trim();if(!msg)return;const div=document.createElement('div');div.className='chat-message';div.innerHTML=`<div class="chat-avatar" style="background:#E8E7FF;color:#5B55D9">YO</div><div><div class="bubble"><strong>You</strong>${esc(msg)}</div><div class="chat-time">Just now</div></div>`;$('#chatMessages').appendChild(div);input.value='';toast('Message added to this local demo only.');};
+renderNotes();renderRequests();
+</script>
+</body>
+</html>
